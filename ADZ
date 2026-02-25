@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>ADZ tv plus | دردشة فيديو مميزة</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    :root {
+      --primary-grad: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      --bg-dark: #020617;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    body {
+      background: radial-gradient(circle at 50% -20%, #1e1b4b 0%, var(--bg-dark) 80%);
+      color: #f8fafc;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header {
+      backdrop-filter: blur(15px);
+      background: rgba(2, 6, 23, 0.8);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .nav { height: 75px; display: flex; align-items: center; justify-content: space-between; }
+
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
+    .logo-box {
+      width: 40px; height: 40px; background: var(--primary-grad);
+      border-radius: 12px; display: grid; place-items: center;
+      font-weight: 900; box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+
+    /* User Profile Area */
+    #user-profile { display: none; align-items: center; gap: 12px; }
+    .profile-info {
+      display: flex; align-items: center; gap: 10px;
+      padding: 5px 15px; background: var(--glass);
+      border-radius: 50px; border: 1px solid var(--border);
+    }
+    .profile-info img { width: 30px; height: 30px; border-radius: 50%; border: 1px solid #a855f7; }
+
+    .logout-btn {
+      color: #ff4e4e; font-size: 0.8rem; cursor: pointer; background: none; border: none; font-weight: 600;
+    }
+
+    /* Hero Section */
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 80px 0; align-items: center; }
+
+    .hero-text h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; font-weight: 900; margin-bottom: 25px;
+    }
+    .hero-text h1 span { background: var(--primary-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+    .hero-text p { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin-bottom: 35px; }
+
+    /* Google Button Wrapper */
+    .auth-box {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 25px; border-radius: 20px; border: 1px dashed var(--border);
+      display: inline-block; min-width: 300px;
+    }
+
+    /* Video Card Customization */
+    .video-card {
+      background: var(--glass); border-radius: 35px; padding: 25px;
+      border: 1px solid var(--border); position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    }
+
+    .viewport {
+      width: 100%; aspect-ratio: 4/3; background: #000; border-radius: 20px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .live-badge {
+      position: absolute; top: 15px; right: 15px;
+      background: rgba(239, 68, 68, 0.2); color: #ef4444;
+      padding: 5px 12px; border-radius: 50px; font-size: 0.75rem;
+      font-weight: 700; display: flex; align-items: center; gap: 6px;
+    }
+    .dot { width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+    .main-btn {
+      background: var(--primary-grad); color: white; border: none; padding: 16px 35px;
+      border-radius: 15px; font-weight: 700; cursor: pointer; width: 100%;
+      margin-top: 25px; transition: 0.3s; font-size: 1rem;
+    }
+    .main-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    @media (max-width: 968px) {
+      .hero { grid-template-columns: 1fr; text-align: center; padding: 40px 0; }
+      .auth-box { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav">
+      <a href="#" class="logo">
+        <div class="logo-box">ADZ</div>
+        <span style="font-weight: 800; font-size: 1.3rem;">tv plus</span>
+      </a>
+
+      <div id="user-profile">
+        <div class="profile-info">
+          <img id="user-img" src="" alt="">
+          <span id="user-name" style="font-size: 0.9rem;"></span>
+        </div>
+        <button class="logout-btn" onclick="logout()">خروج</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>تواصل مع العالم <br><span>بضغطة واحدة</span></h1>
+        <p>المنصة الأكثر أماناً لمقابلة أشخاص جدد. سجل دخولك الآن عبر جوجل لتبدأ محادثات الفيديو مع مستخدمين حقيقيين.</p>
+        
+        <div id="google-auth-container" class="auth-box">
+          <h3 style="margin-bottom: 20px; font-size: 1rem; color: #a855f7;">👇 سجل دخولك للبدء</h3>
+          
+          <div id="g_id_onload"
+               data-client_id="466299124959-qpe6mgcsvl4ktnm5f9fqurdaa8673u5a.apps.googleusercontent.com"
+               data-callback="onSignIn"
+               data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin"
+               data-type="standard"
+               data-shape="pill"
+               data-theme="filled_black"
+               data-text="signin_with"
+               data-size="large"
+               data-logo_alignment="left">
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="viewport">
+          <div class="live-badge"><div class="dot"></div> مباشر</div>
+          <div style="text-align: center; color: #475569;">
+            <svg width="50" height="50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <p style="margin-top: 15px; font-size: 0.9rem;">بانتظار تسجيل دخولك...</p>
+          </div>
+        </div>
+        <button id="start-call" class="main-btn" disabled>ابدأ البحث عن شريك</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // عند تحميل الصفحة، نتحقق إذا كان المستخدم مسجلاً مسبقاً
+    window.onload = function() {
+      const savedUser = localStorage.getItem('adz_user');
+      if (savedUser) {
+        renderUserInfo(JSON.parse(savedUser));
+      }
+    };
+
+    // معالجة استجابة جوجل
+    function onSignIn(response) {
+      // فك تشفير البيانات المرسلة من جوجل (JWT)
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+
+      const user = JSON.parse(jsonPayload);
+      
+      // حفظ بيانات المستخدم محلياً
+      localStorage.setItem('adz_user', JSON.stringify(user));
+      
+      // تحديث الواجهة
+      renderUserInfo(user);
+    }
+
+    function renderUserInfo(user) {
+      // إخفاء صندوق الدخول وإظهار البروفايل
+      document.getElementById('google-auth-container').style.display = 'none';
+      const profile = document.getElementById('user-profile');
+      profile.style.display = 'flex';
+      
+      document.getElementById('user-name').innerText = user.given_name;
+      document.getElementById('user-img').src = user.picture;
+
+      // تفعيل زر الاتصال
+      const callBtn = document.getElementById('start-call');
+      callBtn.disabled = false;
+      callBtn.innerText = "ابحث عن شريك الآن ✨";
+      callBtn.onclick = function() {
+        alert("مرحباً " + user.name + "! سيتم الآن تحويلك لغرفة الدردشة...");
+      };
+    }
+
+    function logout() {
+      localStorage.removeItem('adz_user');
+      location.reload();
+    }
+  </script>
+</body>
+</html>
