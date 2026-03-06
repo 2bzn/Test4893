@@ -178,6 +178,11 @@ font-weight:700;
 cursor:pointer;
 width:100%;
 margin-top:10px;
+transition:.2s;
+}
+
+.main-btn:hover{
+transform:scale(1.05);
 }
 
 .control-row{
@@ -219,6 +224,12 @@ font-size:.8rem;
 margin-top:10px;
 font-size:0.9rem;
 color:#94a3b8;
+}
+
+.status{
+margin-top:6px;
+font-size:0.8rem;
+color:#38bdf8;
 }
 
 </style>
@@ -285,6 +296,10 @@ data-size="large"></div>
 👥 المتصلون الآن: <span id="onlineCount">1</span>
 </div>
 
+<div class="status" id="statusText">
+جاهز للبحث عن شريك
+</div>
+
 <button id="start-call" class="main-btn" disabled>
 ابدأ البحث عن شريك
 </button>
@@ -294,6 +309,7 @@ data-size="large"></div>
 <button id="next-user" class="main-btn">التالي ⏭</button>
 <button id="toggle-mic" class="main-btn">🎤</button>
 <button id="toggle-cam" class="main-btn">📷</button>
+<button id="flip-cam" class="main-btn">🔄</button>
 
 </div>
 
@@ -325,8 +341,17 @@ renderUserInfo(JSON.parse(savedUser));
 }
 
 simulateOnline();
+systemMsg("👋 مرحباً بك في ADZ tv plus");
 
 };
+
+function systemMsg(text){
+const box=document.getElementById("chatBox");
+const msg=document.createElement("div");
+msg.style.opacity="0.7";
+msg.innerText=text;
+box.appendChild(msg);
+}
 
 function onSignIn(response){
 
@@ -354,8 +379,7 @@ profile.style.display='flex';
 document.getElementById('user-name').innerText=user.given_name;
 document.getElementById('user-img').src=user.picture;
 
-const callBtn=document.getElementById('start-call');
-callBtn.disabled=false;
+document.getElementById('start-call').disabled=false;
 
 }
 
@@ -368,6 +392,7 @@ location.reload();
 
 let localStream;
 let peerConnection;
+let facing="user";
 
 const servers={
 iceServers:[{urls:"stun:stun.l.google.com:19302"}]
@@ -381,7 +406,7 @@ async function startCamera(){
 try{
 
 localStream=await navigator.mediaDevices.getUserMedia({
-video:true,
+video:{facingMode:facing},
 audio:true
 });
 
@@ -405,11 +430,16 @@ peerConnection.addTrack(track,localStream);
 
 peerConnection.ontrack=(event)=>{
 remoteVideo.srcObject=event.streams[0];
+document.getElementById("statusText").innerText="✅ تم الاتصال بشخص";
 };
 
 }
 
+/* start */
+
 document.getElementById("start-call").onclick=async()=>{
+
+document.getElementById("statusText").innerText="🔎 جاري البحث عن شخص...";
 
 await startCamera();
 await startPeer();
@@ -425,6 +455,8 @@ if(!localStream) return;
 const track=localStream.getAudioTracks()[0];
 track.enabled=!track.enabled;
 
+document.getElementById("toggle-mic").innerText=track.enabled?"🎤":"🔇";
+
 };
 
 /* cam */
@@ -436,11 +468,25 @@ if(!localStream) return;
 const track=localStream.getVideoTracks()[0];
 track.enabled=!track.enabled;
 
+document.getElementById("toggle-cam").innerText=track.enabled?"📷":"🚫";
+
+};
+
+/* flip camera */
+
+document.getElementById("flip-cam").onclick=async()=>{
+
+facing=facing==="user"?"environment":"user";
+
+await startCamera();
+
 };
 
 /* next */
 
 document.getElementById("next-user").onclick=()=>{
+
+document.getElementById("statusText").innerText="⏭ البحث عن شخص آخر...";
 
 if(peerConnection){
 peerConnection.close();
@@ -472,6 +518,16 @@ box.scrollTop=box.scrollHeight;
 input.value="";
 
 }
+
+/* enter send */
+
+document.getElementById("chatInput").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+sendMsg();
+}
+
+});
 
 /* fake online counter */
 
