@@ -13,6 +13,7 @@
 --glass:rgba(255,255,255,0.03);
 --border:rgba(255,255,255,0.1);
 --btn-hover:#7c3aed;
+--send-btn-color:#7c3aed; /* لون زر إرسال متناسق مع الحقل */
 }
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
@@ -137,7 +138,7 @@ background:#111;
 color:white;
 }
 .chat-input button{
-background:var(--primary-grad);
+background:var(--send-btn-color); /* color: #7c3aed */
 border:none;
 border-radius:25px;
 padding:10px 20px;
@@ -145,13 +146,14 @@ font-weight:700;
 cursor:pointer;
 transition:0.3s;
 box-shadow:0 4px 10px rgba(0,0,0,0.4);
+color:white;
 }
-.chat-input button:hover{transform:scale(1.05);}
+.chat-input button:hover{transform:scale(1.05);background:#5b21b6;}
 
 .footer{
 margin-top:40px;
 text-align:center;
-opacity:.6;
+opacity:.85;
 font-size:.85rem;
 }
 
@@ -165,12 +167,10 @@ font-size:.85rem;
 
 <header>
 <div class="container nav">
-
 <a href="#" class="logo">
 <div class="logo-box">ADZ</div>
 <span style="font-weight:800;font-size:1.3rem;">tv plus</span>
 </a>
-
 <div id="user-profile">
 <div class="profile-info">
 <img id="user-img">
@@ -178,12 +178,10 @@ font-size:.85rem;
 </div>
 <button class="logout-btn" onclick="logout()">خروج</button>
 </div>
-
 </div>
 </header>
 
 <main class="container">
-
 <section class="hero">
 
 <div class="hero-text">
@@ -213,7 +211,7 @@ data-size="large"></div>
 <div class="online">👥 المتصلون الآن: <span id="onlineCount">1</span></div>
 <div class="status" id="statusText">جاهز للبحث عن شريك</div>
 
-<button id="start-call" class="main-btn" disabled>
+<button id="start-call" class="main-btn">
 🚀 ابدأ البحث عن شريك
 </button>
 
@@ -231,17 +229,14 @@ data-size="large"></div>
 </div>
 
 </div>
-
 </section>
 
 <div class="footer">
 © 2026 ADZ tv plus — جميع الحقوق محفوظة
 </div>
-
 </main>
 
 <script>
-
 // ======== User Login ========
 window.onload=function(){
 const savedUser=localStorage.getItem('adz_user');
