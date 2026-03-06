@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
 <meta charset="UTF-8" />
 <title>ADZ tv plus | دردشة فيديو مميزة</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,13 +11,18 @@
 <style>
 
 :root{
---primary-grad: linear-gradient(135deg,#6366f1 0%,#a855f7 50%,#ec4899 100%);
+--primary-grad:linear-gradient(135deg,#6366f1 0%,#a855f7 50%,#ec4899 100%);
 --bg-dark:#020617;
 --glass:rgba(255,255,255,0.03);
 --border:rgba(255,255,255,0.1);
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',system-ui,sans-serif;
+}
 
 body{
 background:radial-gradient(circle at 50% -20%,#1e1b4b 0%,var(--bg-dark) 80%);
@@ -25,7 +31,11 @@ min-height:100vh;
 overflow-x:hidden;
 }
 
-.container{max-width:1200px;margin:0 auto;padding:0 20px;}
+.container{
+max-width:1200px;
+margin:0 auto;
+padding:0 20px;
+}
 
 header{
 backdrop-filter:blur(15px);
@@ -61,7 +71,11 @@ place-items:center;
 font-weight:900;
 }
 
-#user-profile{display:none;align-items:center;gap:12px;}
+#user-profile{
+display:none;
+align-items:center;
+gap:12px;
+}
 
 .profile-info{
 display:flex;
@@ -98,22 +112,14 @@ align-items:center;
 
 .hero-text h1{
 font-size:clamp(2.5rem,5vw,4rem);
-line-height:1.1;
 font-weight:900;
 margin-bottom:25px;
 }
 
-.hero-text h1 span{
+.hero-text span{
 background:var(--primary-grad);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
-}
-
-.hero-text p{
-color:#94a3b8;
-font-size:1.1rem;
-line-height:1.6;
-margin-bottom:35px;
 }
 
 .auth-box{
@@ -121,8 +127,6 @@ background:rgba(255,255,255,0.02);
 padding:25px;
 border-radius:20px;
 border:1px dashed var(--border);
-display:inline-block;
-min-width:300px;
 }
 
 .video-card{
@@ -131,7 +135,6 @@ border-radius:35px;
 padding:25px;
 border:1px solid var(--border);
 position:relative;
-box-shadow:0 40px 100px rgba(0,0,0,0.6);
 }
 
 .viewport{
@@ -163,54 +166,59 @@ left:10px;
 width:140px;
 border-radius:12px;
 border:2px solid #a855f7;
-box-shadow:0 10px 30px rgba(0,0,0,0.6);
-}
-
-.live-badge{
-position:absolute;
-top:15px;
-right:15px;
-background:rgba(239,68,68,0.2);
-color:#ef4444;
-padding:5px 12px;
-border-radius:50px;
-font-size:0.75rem;
-font-weight:700;
-display:flex;
-align-items:center;
-gap:6px;
-}
-
-.dot{
-width:8px;
-height:8px;
-background:#ef4444;
-border-radius:50%;
-animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:1}
-50%{opacity:.4}
-100%{opacity:1}
 }
 
 .main-btn{
 background:var(--primary-grad);
 color:white;
 border:none;
-padding:16px 35px;
-border-radius:15px;
+padding:14px;
+border-radius:12px;
 font-weight:700;
 cursor:pointer;
 width:100%;
-margin-top:15px;
+margin-top:10px;
 }
 
 .control-row{
 display:flex;
 gap:10px;
+}
+
+.chat-box{
+margin-top:15px;
+background:#020617;
+border-radius:15px;
+padding:10px;
+height:160px;
+overflow-y:auto;
+font-size:0.85rem;
+}
+
+.chat-input{
+display:flex;
+gap:5px;
+margin-top:5px;
+}
+
+.chat-input input{
+flex:1;
+padding:8px;
+border-radius:8px;
+border:none;
+}
+
+.footer{
+margin-top:40px;
+text-align:center;
+opacity:.6;
+font-size:.8rem;
+}
+
+.online{
 margin-top:10px;
+font-size:0.9rem;
+color:#94a3b8;
 }
 
 </style>
@@ -228,7 +236,7 @@ margin-top:10px;
 
 <div id="user-profile">
 <div class="profile-info">
-<img id="user-img" src="">
+<img id="user-img">
 <span id="user-name"></span>
 </div>
 <button class="logout-btn" onclick="logout()">خروج</button>
@@ -245,9 +253,7 @@ margin-top:10px;
 
 <h1>تواصل مع العالم <br><span>بضغطة واحدة</span></h1>
 
-<p>
-المنصة الأكثر أماناً لمقابلة أشخاص جدد.
-</p>
+<p>منصة دردشة فيديو عشوائية للقاء أشخاص جدد.</p>
 
 <div id="google-auth-container" class="auth-box">
 
@@ -271,15 +277,12 @@ data-size="large"></div>
 <div class="video-card">
 
 <div class="viewport">
-
-<div class="live-badge">
-<div class="dot"></div>
-مباشر
-</div>
-
 <video id="remoteVideo" autoplay playsinline></video>
 <video id="localVideo" autoplay muted playsinline></video>
+</div>
 
+<div class="online">
+👥 المتصلون الآن: <span id="onlineCount">1</span>
 </div>
 
 <button id="start-call" class="main-btn" disabled>
@@ -289,14 +292,26 @@ data-size="large"></div>
 <div class="control-row">
 
 <button id="next-user" class="main-btn">التالي ⏭</button>
-<button id="toggle-mic" class="main-btn">كتم 🎤</button>
-<button id="toggle-cam" class="main-btn">الكاميرا 📷</button>
+<button id="toggle-mic" class="main-btn">🎤</button>
+<button id="toggle-cam" class="main-btn">📷</button>
 
+</div>
+
+<div class="chat-box" id="chatBox"></div>
+
+<div class="chat-input">
+<input id="chatInput" placeholder="اكتب رسالة...">
+<button onclick="sendMsg()">إرسال</button>
 </div>
 
 </div>
 
 </section>
+
+<div class="footer">
+© 2026 ADZ tv plus — جميع الحقوق محفوظة
+</div>
+
 </main>
 
 <script>
@@ -308,6 +323,8 @@ const savedUser=localStorage.getItem('adz_user');
 if(savedUser){
 renderUserInfo(JSON.parse(savedUser));
 }
+
+simulateOnline();
 
 };
 
@@ -339,26 +356,21 @@ document.getElementById('user-img').src=user.picture;
 
 const callBtn=document.getElementById('start-call');
 callBtn.disabled=false;
-callBtn.innerText="ابدأ البحث الآن ✨";
 
 }
 
 function logout(){
-
 localStorage.removeItem('adz_user');
 location.reload();
-
 }
 
-// ===== VIDEO SYSTEM =====
+/* video */
 
 let localStream;
 let peerConnection;
 
 const servers={
-iceServers:[
-{urls:"stun:stun.l.google.com:19302"}
-]
+iceServers:[{urls:"stun:stun.l.google.com:19302"}]
 };
 
 const localVideo=document.getElementById("localVideo");
@@ -404,7 +416,8 @@ await startPeer();
 
 };
 
-// mic
+/* mic */
+
 document.getElementById("toggle-mic").onclick=()=>{
 
 if(!localStream) return;
@@ -414,7 +427,8 @@ track.enabled=!track.enabled;
 
 };
 
-// cam
+/* cam */
+
 document.getElementById("toggle-cam").onclick=()=>{
 
 if(!localStream) return;
@@ -424,7 +438,8 @@ track.enabled=!track.enabled;
 
 };
 
-// next
+/* next */
+
 document.getElementById("next-user").onclick=()=>{
 
 if(peerConnection){
@@ -436,6 +451,41 @@ remoteVideo.srcObject=null;
 startPeer();
 
 };
+
+/* chat */
+
+function sendMsg(){
+
+const input=document.getElementById("chatInput");
+const box=document.getElementById("chatBox");
+
+if(input.value.trim()=="") return;
+
+const msg=document.createElement("div");
+
+msg.innerText="أنت: "+input.value;
+
+box.appendChild(msg);
+
+box.scrollTop=box.scrollHeight;
+
+input.value="";
+
+}
+
+/* fake online counter */
+
+function simulateOnline(){
+
+setInterval(()=>{
+
+const n=800+Math.floor(Math.random()*500);
+
+document.getElementById("onlineCount").innerText=n;
+
+},3000);
+
+}
 
 </script>
 
